@@ -1,6 +1,6 @@
 from .compat import urlparse
 from .netloc import Netloc
-from .path import URLPath, path_encode, path_decode
+from .path import URLPath, path_encode, path_decode, mimetypes
 from .ports import DEFAULT_PORTS
 from .query_string import QueryString
 from .six import text_type, u
@@ -17,8 +17,8 @@ class URLObject(text_type):
     :class:`URLObject` in your own code.
 
     >>> from urlobject import URLObject
-    >>> u = URLObject("http://www.google.com/")
-    >>> print(u)
+    >>> url = URLObject("http://www.google.com/")
+    >>> print(url)
     http://www.google.com/
 
     URL objects feature properties for directly accessing different parts of
@@ -262,6 +262,18 @@ class URLObject(text_type):
         """
         return URLPath(urlparse.urlsplit(self).path)
 
+    @property
+    def ext(self):
+        """
+        This URL's path.
+
+        >>> print(URLObject("http://www.google.com/a/b/c.jpg").ext)
+        .jpg
+        >>> print(URLObject("http://www.google.com").ext)
+        <BLANKLINE>
+        """
+        return URLPath(urlparse.urlsplit(self).path).ext
+
     def with_path(self, path):
         """
         Add or replace this URL's :attr:`.path`.
@@ -326,6 +338,35 @@ class URLObject(text_type):
         http://www.google.com/a/b/c
         """
         return self.with_path(self.path.add(partial_path))
+
+    @property
+    def mime_type(self):
+        """
+        The mimetype, guessed from the file URL
+
+            >>> print(URLObject('http://www.google.com/a/b/c.jpg').mime_type)
+            u"image/jpeg"
+            >>> print(URLObject('http://www.google.com/a/b/c/').mime_type)
+            u"text/plain" # default type
+        """
+        mime_guess = mimetypes.guess_type(
+            self.without_query().without_fragment())
+        return u(mime_guess[0] or "text/plain")
+
+    @property
+    def hashname(self):
+        """
+        This URL's hash name: SHA1(URL) + URL.ext.lower()
+
+        >>> print(URLObject("http://www.google.com/a/b/c.jpg").hashname)
+        .jpg
+        >>> print(URLObject("http://www.google.com").ext)
+        <BLANKLINE>
+        """
+        from hashlib import sha1
+        ext = self.ext.lower() or ".jpg"
+        ext = (ext.endswith('jpe') or ext.endswith('jpeg')) and ".jpg" or ext
+        return URLPath(sha1(self).hexdigest() + ext)
 
     @property
     def query(self):

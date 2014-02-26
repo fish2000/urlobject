@@ -20,6 +20,9 @@ DEFAULT_PORTS = {
     'sips': 5061,
     'snews': 2009,
     'svn': 3690,
-    'svn+ssh': 22,
     'telnet': 23,
+    'svn+ssh': 22,
+    'ssh': 22,
+    'git': 22,
+    'hg': 22,
 }

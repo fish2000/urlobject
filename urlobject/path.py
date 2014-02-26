@@ -2,6 +2,7 @@
 
 import posixpath
 import urllib
+import mimetypes
 
 from .compat import urlparse
 from .six import text_type, u
@@ -65,6 +66,30 @@ class URLPath(text_type):
         if self.is_leaf:
             return self.relative('.')
         return self.relative('..')
+
+    @property
+    def basename(self):
+        """
+        The basename of the path.
+
+            >>> URLPath('/a/b/c').basename
+            URLPath('c')
+            >>> URLPath('/foo/bar/').basename
+            URLPath('bar')
+        """
+        return type(self)(posixpath.basename(self.endswith('/') and self[:-1] or self))
+
+    @property
+    def ext(self):
+        """
+        The file extension (if any)
+
+            >>> URLPath('/a/b/c.jpg').ext
+            u".jpg"
+            >>> URLPath('/foo/bar/').ext
+            u""
+        """
+        return posixpath.splitext(self)[-1]
 
     @property
     def is_leaf(self):
