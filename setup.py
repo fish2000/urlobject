@@ -3,13 +3,12 @@
 
 from setuptools import setup, find_packages
 
-
 setup(
-    name='URLObject',
-    version='2.3.4',
-    description='A utility class for manipulating URLs.',
-    author='Zachary Voase',
-    author_email='z@zacharyvoase.com',
-    url='http://github.com/zacharyvoase/urlobject',
+    name='urlstring',
+    version='2.4.0',
+    description='A fork of Zachary Voase\'s "URLObject" utility class for manipulating URLs.',
+    author='Alexander Bohn',
+    author_email='fish2000@gmail.com',
+    url='http://github.com/fish2000/urlobject',
     packages=find_packages(exclude=('test',)),
 )

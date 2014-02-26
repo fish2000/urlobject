@@ -16,7 +16,7 @@ class URLObject(text_type):
     methods return *new* objects; you need to consider this when using
     :class:`URLObject` in your own code.
 
-    >>> from urlobject import URLObject
+    >>> from urlstring import URLObject
     >>> url = URLObject("http://www.google.com/")
     >>> print(url)
     http://www.google.com/
@@ -233,7 +233,7 @@ class URLObject(text_type):
         If no port number is explicitly given in the URL, this will return the
         default port number for the scheme if one is known, or ``None``. The
         mapping of schemes to default ports is defined in
-        :const:`urlobject.ports.DEFAULT_PORTS`.
+        :const:`urlstring.ports.DEFAULT_PORTS`.
 
         For URLs *with* explicit port numbers, this just returns the value of
         :attr:`.port`.

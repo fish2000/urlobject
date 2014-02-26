@@ -3,9 +3,9 @@ import doctest
 import unittest
 
 from nose.tools import assert_raises
-from urlobject import urlobject as urlobject_module
-from urlobject import URLObject
-from urlobject.six import text_type, u, print_
+from urlstring import urlobject as urlstring_module
+from urlstring import URLObject
+from urlstring.six import text_type, u, print_
 
 
 def dictsort(d):
@@ -17,15 +17,15 @@ def dictsort(d):
 class URLObjectTest(unittest.TestCase):
 
     def setUp(self):
-        self.url_string = u("https://github.com/zacharyvoase/urlobject?spam=eggs#foo")
+        self.url_string = u("https://github.com/fish2000/urlstring?spam=eggs#foo")
 
-    def test_urlobject_preserves_equality_with_the_original_string(self):
+    def test_urlstring_preserves_equality_with_the_original_string(self):
         assert URLObject(self.url_string) == self.url_string
 
-    def test_urlobject_preserves_the_hash_of_the_original_string(self):
+    def test_urlstring_preserves_the_hash_of_the_original_string(self):
         assert hash(URLObject(self.url_string)) == hash(self.url_string)
 
-    def test_calling_unicode_on_a_urlobject_returns_a_normal_string(self):
+    def test_calling_unicode_on_a_urlstring_returns_a_normal_string(self):
         url = URLObject(self.url_string)
         # Normally `type(x) is Y` is a bad idea, but it's exactly what we want.
         assert type(text_type(url)) is text_type
@@ -35,7 +35,7 @@ class URLObjectTest(unittest.TestCase):
 class SphinxDoctestsTest(unittest.TestCase):
 
     def test__doctest(self):
-        result = doctest.testmod(urlobject_module,
+        result = doctest.testmod(urlstring_module,
                                  extraglobs={'dictsort': dictsort})
         if platform.python_version() < '3.2':
             # Don't run doctests on pre-3.2.
@@ -49,7 +49,7 @@ class SphinxDoctestsTest(unittest.TestCase):
 class URLObjectRelativeTest(unittest.TestCase):
 
     def setUp(self):
-        self.url = URLObject("https://github.com/zacharyvoase/urlobject?spam=eggs#foo")
+        self.url = URLObject("https://github.com/fish2000/urlstring?spam=eggs#foo")
 
     def test_relative_with_scheme_returns_the_given_URL(self):
         assert self.url.relative('http://example.com/abc') == 'http://example.com/abc'
@@ -58,8 +58,8 @@ class URLObjectRelativeTest(unittest.TestCase):
         assert self.url.relative('//example.com/abc') == 'https://example.com/abc'
 
     def test_relative_with_path_replaces_path_and_removes_query_string_and_fragment(self):
-        assert self.url.relative('another-project') == 'https://github.com/zacharyvoase/another-project'
-        assert self.url.relative('.') == 'https://github.com/zacharyvoase/'
+        assert self.url.relative('another-project') == 'https://github.com/fish2000/another-project'
+        assert self.url.relative('.') == 'https://github.com/fish2000/'
         assert self.url.relative('/dvxhouse/intessa') == 'https://github.com/dvxhouse/intessa'
         assert self.url.relative('/dvxhouse/intessa') == 'https://github.com/dvxhouse/intessa'
 
@@ -78,15 +78,15 @@ class URLObjectRelativeTest(unittest.TestCase):
         assert self.url.relative('//example.com/a/b#bar') == 'https://example.com/a/b#bar'
         assert self.url.relative('//example.com/a/b?c=d#bar') == 'https://example.com/a/b?c=d#bar'
         assert self.url.relative('/a/b?c=d#bar') == 'https://github.com/a/b?c=d#bar'
-        assert self.url.relative('?c=d#bar') == 'https://github.com/zacharyvoase/urlobject?c=d#bar'
-        assert self.url.relative('#bar') == 'https://github.com/zacharyvoase/urlobject?spam=eggs#bar'
+        assert self.url.relative('?c=d#bar') == 'https://github.com/fish2000/urlstring?c=d#bar'
+        assert self.url.relative('#bar') == 'https://github.com/fish2000/urlstring?spam=eggs#bar'
 
 
 
 class URLObjectPropertyTest(unittest.TestCase):
 
     def setUp(self):
-        self.url = URLObject("https://github.com/zacharyvoase/urlobject?spam=eggs#foo")
+        self.url = URLObject("https://github.com/fish2000/urlstring?spam=eggs#foo")
 
     def test_scheme_returns_scheme(self):
         assert self.url.scheme == 'https'
@@ -110,7 +110,7 @@ class URLObjectPropertyTest(unittest.TestCase):
         assert URLObject("https://github.com:412").default_port == 412
 
     def test_path_returns_path(self):
-        assert self.url.path == '/zacharyvoase/urlobject'
+        assert self.url.path == '/fish2000/urlstring'
 
     def test_query_returns_query(self):
         assert self.url.query == 'spam=eggs'
@@ -155,15 +155,15 @@ class URLObjectPropertyTest(unittest.TestCase):
 class URLObjectModificationTest(unittest.TestCase):
 
     def setUp(self):
-        self.url = URLObject('https://github.com/zacharyvoase/urlobject?spam=eggs#foo')
+        self.url = URLObject('https://github.com/fish2000/urlstring?spam=eggs#foo')
 
     def test_with_scheme_replaces_scheme(self):
         assert (self.url.with_scheme('http') ==
-                'http://github.com/zacharyvoase/urlobject?spam=eggs#foo')
+                'http://github.com/fish2000/urlstring?spam=eggs#foo')
 
     def test_with_netloc_replaces_netloc(self):
         assert (self.url.with_netloc('example.com') ==
-                'https://example.com/zacharyvoase/urlobject?spam=eggs#foo')
+                'https://example.com/fish2000/urlstring?spam=eggs#foo')
 
     def test_with_hostname_replaces_hostname(self):
         url = URLObject('https://user:pass@github.com/')
@@ -232,7 +232,7 @@ class URLObjectModificationTest(unittest.TestCase):
 
     def test_with_port_adds_port_number(self):
         assert (self.url.with_port(24) ==
-                'https://github.com:24/zacharyvoase/urlobject?spam=eggs#foo')
+                'https://github.com:24/fish2000/urlstring?spam=eggs#foo')
 
     def test_with_port_replaces_port_number(self):
         url = URLObject('https://github.com:59/')
@@ -250,84 +250,84 @@ class URLObjectModificationTest(unittest.TestCase):
         assert self.url.root == 'https://github.com/?spam=eggs#foo'
 
     def test_parent_jumps_up_one_level(self):
-        url = URLObject('https://github.com/zacharyvoase/urlobject')
-        assert url.parent == 'https://github.com/zacharyvoase/'
+        url = URLObject('https://github.com/fish2000/urlstring')
+        assert url.parent == 'https://github.com/fish2000/'
         assert url.parent.parent == 'https://github.com/'
 
     def test_add_path_segment_adds_a_path_segment(self):
-        url = URLObject('https://github.com/zacharyvoase/urlobject')
+        url = URLObject('https://github.com/fish2000/urlstring')
         assert (url.add_path_segment('tree') ==
-                'https://github.com/zacharyvoase/urlobject/tree')
+                'https://github.com/fish2000/urlstring/tree')
         assert (url.add_path_segment('tree/master') ==
-                'https://github.com/zacharyvoase/urlobject/tree%2Fmaster')
+                'https://github.com/fish2000/urlstring/tree%2Fmaster')
 
     def test_add_path_adds_a_partial_path(self):
-        url = URLObject('https://github.com/zacharyvoase/urlobject')
+        url = URLObject('https://github.com/fish2000/urlstring')
         assert (url.add_path('tree') ==
-                'https://github.com/zacharyvoase/urlobject/tree')
+                'https://github.com/fish2000/urlstring/tree')
         assert (url.add_path('tree/master') ==
-                'https://github.com/zacharyvoase/urlobject/tree/master')
+                'https://github.com/fish2000/urlstring/tree/master')
 
     def test_is_leaf(self):
-        assert URLObject('https://github.com/zacharyvoase/urlobject').is_leaf
-        assert not URLObject('https://github.com/zacharyvoase/').is_leaf
+        assert URLObject('https://github.com/fish2000/urlstring').is_leaf
+        assert not URLObject('https://github.com/fish2000/').is_leaf
 
     def test_with_query_replaces_query(self):
         assert (self.url.with_query('spam-ham-eggs') ==
-                'https://github.com/zacharyvoase/urlobject?spam-ham-eggs#foo')
+                'https://github.com/fish2000/urlstring?spam-ham-eggs#foo')
 
     def test_without_query_removes_query(self):
         assert (self.url.without_query() ==
-                'https://github.com/zacharyvoase/urlobject#foo')
+                'https://github.com/fish2000/urlstring#foo')
 
     def test_add_query_param_adds_one_query_parameter(self):
         assert (self.url.add_query_param('spam', 'ham') ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs&spam=ham#foo')
+                'https://github.com/fish2000/urlstring?spam=eggs&spam=ham#foo')
 
     def test_add_query_params_adds_multiple_query_parameters(self):
         assert (self.url.add_query_params([('spam', 'ham'), ('foo', 'bar')]) ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs&spam=ham&foo=bar#foo')
+                'https://github.com/fish2000/urlstring?spam=eggs&spam=ham&foo=bar#foo')
 
     def test_add_query_params_with_multiple_values_adds_the_same_query_parameter_multiple_times(self):
         assert (self.url.add_query_params({'foo': ['bar', 'baz']}) ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs&foo=bar&foo=baz#foo')
+                'https://github.com/fish2000/urlstring?spam=eggs&foo=bar&foo=baz#foo')
 
     def test_set_query_param_adds_or_replaces_one_query_parameter(self):
         assert (self.url.set_query_param('spam', 'ham') ==
-                'https://github.com/zacharyvoase/urlobject?spam=ham#foo')
+                'https://github.com/fish2000/urlstring?spam=ham#foo')
 
     def test_set_query_params_adds_or_replaces_multiple_query_parameters(self):
         assert (self.url.set_query_params({'foo': 'bar'}, spam='ham') ==
-                'https://github.com/zacharyvoase/urlobject?foo=bar&spam=ham#foo')
+                'https://github.com/fish2000/urlstring?foo=bar&spam=ham#foo')
 
     def test_set_query_params_with_multiple_values_adds_or_replaces_the_same_parameter_multiple_times(self):
         assert (self.url.set_query_params({'spam': ['bar', 'baz']}) ==
-                'https://github.com/zacharyvoase/urlobject?spam=bar&spam=baz#foo')
+                'https://github.com/fish2000/urlstring?spam=bar&spam=baz#foo')
         assert (self.url.set_query_params({'foo': ['bar', 'baz']}) ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs&foo=bar&foo=baz#foo')
+                'https://github.com/fish2000/urlstring?spam=eggs&foo=bar&foo=baz#foo')
         # Ensure it removes all appearances of an existing name before adding
         # the new ones.
-        url = URLObject('https://github.com/zacharyvoase/urlobject?foo=bar&foo=baz#foo')
+        url = URLObject('https://github.com/fish2000/urlstring?foo=bar&foo=baz#foo')
         assert (url.set_query_params({'foo': ['spam', 'ham']}) ==
-                'https://github.com/zacharyvoase/urlobject?foo=spam&foo=ham#foo')
+                'https://github.com/fish2000/urlstring?foo=spam&foo=ham#foo')
 
     def test_del_query_param_removes_one_query_parameter(self):
         assert (self.url.del_query_param('spam') ==
-                'https://github.com/zacharyvoase/urlobject#foo')
+                'https://github.com/fish2000/urlstring#foo')
 
     def test_del_query_params_removes_multiple_query_parameters(self):
-        url = URLObject('https://github.com/zacharyvoase/urlobject?foo=bar&baz=spam#foo')
+        url = URLObject('https://github.com/fish2000/urlstring?foo=bar&baz=spam#foo')
         assert (url.del_query_params(['foo', 'baz']) ==
-                'https://github.com/zacharyvoase/urlobject#foo')
+                'https://github.com/fish2000/urlstring#foo')
 
     def test_with_fragment_replaces_fragment(self):
         assert (self.url.with_fragment('part') ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs#part')
+                'https://github.com/fish2000/urlstring?spam=eggs#part')
 
     def test_with_fragment_encodes_fragment_correctly(self):
         assert (self.url.with_fragment('foo bar#baz') ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs#foo%20bar%23baz')
+                'https://github.com/fish2000/urlstring?spam=eggs#foo%20bar%23baz')
 
     def test_without_fragment_removes_fragment(self):
         assert (self.url.without_fragment() ==
-                'https://github.com/zacharyvoase/urlobject?spam=eggs')
+                'https://github.com/fish2000/urlstring?spam=eggs')

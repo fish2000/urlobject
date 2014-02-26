@@ -2,7 +2,7 @@ import unittest
 
 from nose.tools import assert_raises
 
-from urlobject.netloc import Netloc
+from urlstring.netloc import Netloc
 
 
 class NetlocTest(unittest.TestCase):
