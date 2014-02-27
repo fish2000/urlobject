@@ -101,5 +101,5 @@ Indices and tables
 * :ref:`search`
 
 
-.. |Build Status| image:: https://secure.travis-ci.org/zacharyvoase/urlobject.png?branch=master
-   :target: http://travis-ci.org/zacharyvoase/urlobject
+.. |Build Status| image:: https://secure.travis-ci.org/fish2000/urlstring.png?branch=master
+   :target: http://travis-ci.org/fish2000/urlstring
