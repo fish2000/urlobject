@@ -2,7 +2,7 @@ _This is the original README.md from zacharyvoase’s «URLObject», from which 
 
 # URLObject 2
 
-[![Build Status](https://secure.travis-ci.org/zacharyvoase/urlobject.png?branch=master)](http://travis-ci.org/zacharyvoase/urlobject)
+[![Build Status](https://secure.travis-ci.org/fish2000/urlstring.png?branch=master)](http://travis-ci.org/fish2000/urlstring)
 
 `URLObject` is a utility class for manipulating URLs. The latest incarnation of
 this library builds upon the ideas of its predecessor, but aims for a clearer
