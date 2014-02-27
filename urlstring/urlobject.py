@@ -345,9 +345,9 @@ class URLObject(text_type):
         The mimetype, guessed from the file URL
 
             >>> print(URLObject('http://www.google.com/a/b/c.jpg').mime_type)
-            u"image/jpeg"
+            image/jpeg
             >>> print(URLObject('http://www.google.com/a/b/c/').mime_type)
-            u"text/plain" # default type
+            text/plain
         """
         mime_guess = mimetypes.guess_type(
             self.without_query().without_fragment())
