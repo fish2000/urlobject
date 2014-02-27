@@ -1,3 +1,5 @@
+_This is the original README.md from zacharyvoase’s «URLObject», from which «urlstring» was fork’d… of which, the primary purpose was posting the few small mods made by me, fish2000, on PyPI. And so voilà – 99% of the credit here goes to Mr. Voase. Yes! **-fish2000**_
+
 # URLObject 2
 
 [![Build Status](https://secure.travis-ci.org/zacharyvoase/urlobject.png?branch=master)](http://travis-ci.org/zacharyvoase/urlobject)
