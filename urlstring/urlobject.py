@@ -366,7 +366,7 @@ class URLObject(text_type):
         from hashlib import sha1
         ext = self.ext.lower() or ".jpg"
         ext = (ext.endswith('jpe') or ext.endswith('jpeg')) and ".jpg" or ext
-        return URLPath(sha1(self).hexdigest() + ext)
+        return URLPath(sha1(self.encode('UTF-8')).hexdigest() + ext)
 
     @property
     def query(self):
