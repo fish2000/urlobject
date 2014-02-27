@@ -356,12 +356,12 @@ class URLObject(text_type):
     @property
     def hashname(self):
         """
-        This URL's hash name: SHA1(URL) + URL.ext.lower()
+        This URL's hash name: SHA1(URL) + (URL.ext.lower() or ".jpg")
 
         >>> print(URLObject("http://www.google.com/a/b/c.jpg").hashname)
-        .jpg
-        >>> print(URLObject("http://www.google.com").ext)
-        <BLANKLINE>
+        ab25bb4f99f75f727d45ac0b95b8337269029ee4.jpg
+        >>> print(URLObject("http://www.google.com").hashname)
+        738ddf35b3a85a7a6ba7b232bd3d5f1e4d284ad1.jpg
         """
         from hashlib import sha1
         ext = self.ext.lower() or ".jpg"
